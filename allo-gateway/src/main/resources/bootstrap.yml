@@ -1,0 +1,62 @@
+spring.profiles.active: local
+server.port: 30000
+
+dubbo:
+  protocol:
+    name: dubbo
+    # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
+    port: -1
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    # 订阅服务，不写会提示订阅了所有，如果只是生产者，此处空者，订阅多个服务用,分隔
+    subscribed-services:
+  consumer:
+    check: false
+
+spring:
+  application:
+    # Dubbo 应用名称
+    name: allo-gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedHeaders: "*"
+            allowedOrigins: "*"
+            allowedMethods:
+            - GET
+              POST
+              DELETE
+              PUT
+              OPTION
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+      - id: allo-activity-service-route
+        uri: lb://allo-activity-service
+        predicates:
+        - Path=/**
+      - id: allo-roomplay-service-route
+        uri: lb://allo-roomplay-service
+        predicates:
+        - Path=/**
+      - id: allo-finance-service-route
+        uri: lb://allo-finance-service
+        predicates:
+        - Path=/**
+      - id: allo-biz-notice-route
+        uri: lb://allo-biz-notice
+        predicates:
+        - Path=/**
+      - id: allo-rank-service-route
+        uri: lb://allo-rank-service
+        predicates:
+        - Path=/**
+      - id: allo-task-service-route
+        uri: lb://allo-task-service
+        predicates:
+        - Path=/**

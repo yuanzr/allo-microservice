@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dc.allo.roomplay.mapper.pk.RoomPkRecordExpand">
+    <resultMap id="BaseResultMap" type="com.dc.allo.rpc.domain.roomplay.RoomPkRecord" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="room_uid" property="roomUid" jdbcType="BIGINT" />
+        <result column="target_room_uid" property="targetRoomUid" jdbcType="BIGINT" />
+        <result column="room_title" property="roomTitle" jdbcType="VARCHAR" />
+        <result column="target_room_title" property="targetRoomTitle" jdbcType="VARCHAR" />
+        <result column="pk_status" property="pkStatus" jdbcType="TINYINT" />
+        <result column="pk_result" property="pkResult" jdbcType="TINYINT" />
+        <result column="pk_start_time" property="pkStartTime" jdbcType="TIMESTAMP" />
+        <result column="pk_end_time" property="pkEndTime" jdbcType="TIMESTAMP" />
+        <result column="punishment" property="punishment" jdbcType="VARCHAR" />
+        <result column="room_total_gold" property="roomTotalGold" jdbcType="DECIMAL" />
+        <result column="room_total_person" property="roomTotalPerson" jdbcType="SMALLINT" />
+        <result column="target_total_gold" property="targetTotalGold" jdbcType="DECIMAL" />
+        <result column="target_total_person" property="targetTotalPerson" jdbcType="SMALLINT" />
+        <result column="sponsor_uid" property="sponsorUid" jdbcType="BIGINT" />
+        <result column="win_uid" property="winUid" jdbcType="BIGINT" />
+        <result column="lose_uid" property="loseUid" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="room_avatar" property="roomAvatar" jdbcType="VARCHAR" />
+        <result column="target_room_avatar" property="targetRoomAvatar" jdbcType="VARCHAR" />
+        <result column="win_mvp_uid" property="winMvpUid" jdbcType="BIGINT" />
+        <result column="win_mvp_avatar" property="winMvpAvatar" jdbcType="VARCHAR" />
+        <result column="win_combat_power" property="winCombatPower" jdbcType="DECIMAL" />
+    </resultMap>
+    <resultMap id="roomPkWinVoMap" type="com.dc.allo.roomplay.domain.vo.RoomPkWinVo">
+        <result column="roomUid" property="roomUid"/>
+        <result column="erbanNo" property="erbanNo"/>
+        <result column="roomAvatar" property="roomAvatar"/>
+        <result column="roomTitle" property="roomTitle"/>
+        <result column="combatPower" property="combatPower"/>
+        <result column="winNum" property="winNum"/>
+    </resultMap>
+    <resultMap id="roomPkGoldVo" type="com.dc.allo.roomplay.domain.vo.RoomPkGoldVo">
+        <result column="roomUid" property="roomUid"/>
+        <result column="gold" property="gold"/>
+    </resultMap>
+
+    <select id="getPkingRecord" parameterType="map" resultMap="BaseResultMap">
+      select * from room_pk_record where room_uid =#{uid}
+      UNION
+      select * from room_pk_record where target_room_uid =#{uid}
+      order by create_time desc limit 1
+    </select>
+
+    <select id="getRoomPkListOrderByWinNum" resultMap="roomPkWinVoMap" parameterType="map">
+SELECT win_uid roomUid,count(1) winNum,max(win_combat_power) combatPower,myroom.avatar roomAvatar,myroom.title roomTitle,myuser.erban_no erbanNo
+FROM room_pk_record record,room myroom,users myuser
+WHERE pk_status = 4 and record.win_uid = myroom.uid and myroom.uid = myuser.uid  and record.create_time >=#{startTime}
+GROUP BY win_uid
+order by winNum desc,combatPower desc
+limit 10;
+   </select>
+
+    <select id="getRoomPkRecordList" resultMap="BaseResultMap" parameterType="map">
+      select * from room_pk_record where pk_status=4 and room_uid=#{roomUid} and create_time>=#{startTime}
+      UNION
+      select * from room_pk_record where pk_status=4 and target_room_uid=#{roomUid} and create_time>=#{startTime}
+      order by create_time desc;
+    </select>
+
+    <select id="getRoomPkTodayGold" resultMap="roomPkGoldVo">
+      SELECT
+	room_uid roomUid,
+	sum(room_total_gold) gold
+FROM
+	room_pk_record
+WHERE
+	room_uid IN
+	 <foreach item="item" index="index" collection="roomUidList" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+AND pk_status = 4
+AND create_time BETWEEN #{startTime} AND #{endTime}
+GROUP BY room_uid;
+    </select>
+
+    <select id="getRoomPkTodayGoldByTargeUid" resultMap="roomPkGoldVo">
+        SELECT
+        target_room_uid roomUid,
+        sum(target_total_gold) gold
+        FROM
+        room_pk_record
+        WHERE
+        target_room_uid IN
+        <foreach item="item" index="index" collection="roomUidList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND pk_status = 4
+        AND create_time BETWEEN #{startTime} AND #{endTime}
+        GROUP BY target_room_uid;
+    </select>
+</mapper>

@@ -1,0 +1,98 @@
+logging.config: classpath:logback-product.xml
+
+app.product: true
+logs.level: INFO
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.26.225.10:8848
+        namespace: dec3f30f-0a69-4b87-a053-f1d716d03ed3
+        #指定文件后缀
+        file-extension: yml
+        group: DEFAULT_GROUP
+        prefix: ${spring.application.name}
+      discovery:
+        server-addr: 172.26.225.10:8848
+        namespace: dec3f30f-0a69-4b87-a053-f1d716d03ed3
+  redis:
+    database: 0
+    cluster:
+      max-redirects: 3
+      nodes: 172.26.225.1:7011,172.26.225.1:7012,172.26.225.1:7013
+    password: bwg127BWG127asdgQWGAD341a
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 3000ms
+        max-idle: 8
+        min-idle: 0
+  kafka:
+    bootstrap-servers: 172.26.225.6:9092,172.26.225.5:9092,172.26.225.14:9092,172.26.225.15:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 1
+    consumer:
+      auto-offset-reset: latest
+      group-id: ${spring.application.name}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  shardingsphere:
+    datasource:
+      names: master,slave0
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://172.26.225.1:3306/xchat?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: SLLL1234acBC
+      slave0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://172.26.224.254:3306/xchat?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: SLLL1234acBC
+    masterslave:
+      name: ms
+      master-data-source-name: master
+      slave-data-source-names: master,slave0
+      load-balance-algorithm-type: round_robin
+    props:
+      sql:
+        show: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+#nacos整合i18n配置
+i18n:
+  nacos:
+    config:
+      server-addr: 172.26.225.10:8848
+      namespace: 5f231fd0-1be1-4187-9465-1c5d0bc39210
+      group: i18n-prod
+      dataIds: messages.properties,messages_en.properties,messages_ar.properties,messages_tr.properties,messages_in.properties,messages_zh.properties
+
+RongCloudNetEase:
+  appKey: x4vkb1qpxzo9k
+  appSecret: bvcrgduWQly
+  API_SG01_ADDRESS: http://api-sg01.ronghub.com
+
+#自定义配置
+xchat:
+  web:
+    domain: https://client.allolike.com
+
+
+firebase:
+  adminsdk:
+    #/firebase/com-yizhuan-allo-firebase-adminsdk-prod.json
+    service-account: /firebase/com-yizhuan-allo-firebase-adminsdk-prod.json
+    #https://com-yizhuan-allo.firebaseio.com/
+    database: https://com-yizhuan-allo.firebaseio.com/

@@ -1,0 +1,32 @@
+logging.config: classpath:logback-local.xml
+
+app.product: false
+logs.level: INFO
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+#      config:
+#        server-addr: 47.91.115.0:8848
+#        namespace: 817845f5-4ca6-4ae3-bfcd-72a018ba2e25
+#        #指定文件后缀
+#        file-extension: yaml
+      discovery:
+        server-addr: 192.168.100.230:8848
+        namespace: a9d29c49-04e7-4010-9cdf-89817034cbb1
+    sentinel:
+      transport:
+        dashboard: 192.168.100.230:38888
+      # 设置Sentinel Nacos数据源配置
+      datasource:
+        #其中flow是数据源名，可以自行随意修改
+        flow:
+          nacos:
+            server-addr: 192.168.100.230:8848
+            namespace: a9d29c49-04e7-4010-9cdf-89817034cbb1
+            data-id: ${spring.application.name}-flow-rules
+            groupId: DEFAULT_GROUP
+            rule-type: flow
+

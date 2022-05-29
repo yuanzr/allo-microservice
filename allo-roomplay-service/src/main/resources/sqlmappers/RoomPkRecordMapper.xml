@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dc.allo.roomplay.mapper.pk.RoomPkRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.dc.allo.rpc.domain.roomplay.RoomPkRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="room_uid" property="roomUid" jdbcType="BIGINT" />
+    <result column="target_room_uid" property="targetRoomUid" jdbcType="BIGINT" />
+    <result column="room_title" property="roomTitle" jdbcType="VARCHAR" />
+    <result column="target_room_title" property="targetRoomTitle" jdbcType="VARCHAR" />
+    <result column="pk_status" property="pkStatus" jdbcType="TINYINT" />
+    <result column="pk_result" property="pkResult" jdbcType="TINYINT" />
+    <result column="pk_start_time" property="pkStartTime" jdbcType="TIMESTAMP" />
+    <result column="pk_end_time" property="pkEndTime" jdbcType="TIMESTAMP" />
+    <result column="punishment" property="punishment" jdbcType="VARCHAR" />
+    <result column="room_total_gold" property="roomTotalGold" jdbcType="DECIMAL" />
+    <result column="room_total_person" property="roomTotalPerson" jdbcType="SMALLINT" />
+    <result column="target_total_gold" property="targetTotalGold" jdbcType="DECIMAL" />
+    <result column="target_total_person" property="targetTotalPerson" jdbcType="SMALLINT" />
+    <result column="sponsor_uid" property="sponsorUid" jdbcType="BIGINT" />
+    <result column="win_uid" property="winUid" jdbcType="BIGINT" />
+    <result column="lose_uid" property="loseUid" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="room_avatar" property="roomAvatar" jdbcType="VARCHAR" />
+    <result column="target_room_avatar" property="targetRoomAvatar" jdbcType="VARCHAR" />
+    <result column="win_mvp_uid" property="winMvpUid" jdbcType="BIGINT" />
+    <result column="win_mvp_avatar" property="winMvpAvatar" jdbcType="VARCHAR" />
+    <result column="win_combat_power" property="winCombatPower" jdbcType="DECIMAL" />
+    <result column="invite_invalid_time" property="inviteInvalidTime" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, room_uid, target_room_uid, room_title, target_room_title, pk_status, pk_result, 
+    pk_start_time, pk_end_time, punishment, room_total_gold, room_total_person, target_total_gold, 
+    target_total_person, sponsor_uid, win_uid, lose_uid, create_time, room_avatar, target_room_avatar, 
+    win_mvp_uid, win_mvp_avatar, win_combat_power, invite_invalid_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dc.allo.roomplay.domain.example.RoomPkRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from room_pk_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from room_pk_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from room_pk_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dc.allo.roomplay.domain.example.RoomPkRecordExample" >
+    delete from room_pk_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dc.allo.rpc.domain.roomplay.RoomPkRecord" useGeneratedKeys="true" keyProperty="id" >
+    insert into room_pk_record (room_uid, target_room_uid, room_title, 
+      target_room_title, pk_status, pk_result, 
+      pk_start_time, pk_end_time, punishment, 
+      room_total_gold, room_total_person, target_total_gold, 
+      target_total_person, sponsor_uid, win_uid, 
+      lose_uid, create_time, room_avatar, 
+      target_room_avatar, win_mvp_uid, win_mvp_avatar, 
+      win_combat_power, invite_invalid_time)
+    values (#{roomUid,jdbcType=BIGINT}, #{targetRoomUid,jdbcType=BIGINT}, #{roomTitle,jdbcType=VARCHAR}, 
+      #{targetRoomTitle,jdbcType=VARCHAR}, #{pkStatus,jdbcType=TINYINT}, #{pkResult,jdbcType=TINYINT}, 
+      #{pkStartTime,jdbcType=TIMESTAMP}, #{pkEndTime,jdbcType=TIMESTAMP}, #{punishment,jdbcType=VARCHAR}, 
+      #{roomTotalGold,jdbcType=DECIMAL}, #{roomTotalPerson,jdbcType=SMALLINT}, #{targetTotalGold,jdbcType=DECIMAL}, 
+      #{targetTotalPerson,jdbcType=SMALLINT}, #{sponsorUid,jdbcType=BIGINT}, #{winUid,jdbcType=BIGINT}, 
+      #{loseUid,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{roomAvatar,jdbcType=VARCHAR}, 
+      #{targetRoomAvatar,jdbcType=VARCHAR}, #{winMvpUid,jdbcType=BIGINT}, #{winMvpAvatar,jdbcType=VARCHAR}, 
+      #{winCombatPower,jdbcType=DECIMAL}, #{inviteInvalidTime,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dc.allo.rpc.domain.roomplay.RoomPkRecord" useGeneratedKeys="true" keyProperty="id" >
+    insert into room_pk_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roomUid != null" >
+        room_uid,
+      </if>
+      <if test="targetRoomUid != null" >
+        target_room_uid,
+      </if>
+      <if test="roomTitle != null" >
+        room_title,
+      </if>
+      <if test="targetRoomTitle != null" >
+        target_room_title,
+      </if>
+      <if test="pkStatus != null" >
+        pk_status,
+      </if>
+      <if test="pkResult != null" >
+        pk_result,
+      </if>
+      <if test="pkStartTime != null" >
+        pk_start_time,
+      </if>
+      <if test="pkEndTime != null" >
+        pk_end_time,
+      </if>
+      <if test="punishment != null" >
+        punishment,
+      </if>
+      <if test="roomTotalGold != null" >
+        room_total_gold,
+      </if>
+      <if test="roomTotalPerson != null" >
+        room_total_person,
+      </if>
+      <if test="targetTotalGold != null" >
+        target_total_gold,
+      </if>
+      <if test="targetTotalPerson != null" >
+        target_total_person,
+      </if>
+      <if test="sponsorUid != null" >
+        sponsor_uid,
+      </if>
+      <if test="winUid != null" >
+        win_uid,
+      </if>
+      <if test="loseUid != null" >
+        lose_uid,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="roomAvatar != null" >
+        room_avatar,
+      </if>
+      <if test="targetRoomAvatar != null" >
+        target_room_avatar,
+      </if>
+      <if test="winMvpUid != null" >
+        win_mvp_uid,
+      </if>
+      <if test="winMvpAvatar != null" >
+        win_mvp_avatar,
+      </if>
+      <if test="winCombatPower != null" >
+        win_combat_power,
+      </if>
+      <if test="inviteInvalidTime != null" >
+        invite_invalid_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roomUid != null" >
+        #{roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="targetRoomUid != null" >
+        #{targetRoomUid,jdbcType=BIGINT},
+      </if>
+      <if test="roomTitle != null" >
+        #{roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="targetRoomTitle != null" >
+        #{targetRoomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pkStatus != null" >
+        #{pkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="pkResult != null" >
+        #{pkResult,jdbcType=TINYINT},
+      </if>
+      <if test="pkStartTime != null" >
+        #{pkStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkEndTime != null" >
+        #{pkEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punishment != null" >
+        #{punishment,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTotalGold != null" >
+        #{roomTotalGold,jdbcType=DECIMAL},
+      </if>
+      <if test="roomTotalPerson != null" >
+        #{roomTotalPerson,jdbcType=SMALLINT},
+      </if>
+      <if test="targetTotalGold != null" >
+        #{targetTotalGold,jdbcType=DECIMAL},
+      </if>
+      <if test="targetTotalPerson != null" >
+        #{targetTotalPerson,jdbcType=SMALLINT},
+      </if>
+      <if test="sponsorUid != null" >
+        #{sponsorUid,jdbcType=BIGINT},
+      </if>
+      <if test="winUid != null" >
+        #{winUid,jdbcType=BIGINT},
+      </if>
+      <if test="loseUid != null" >
+        #{loseUid,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomAvatar != null" >
+        #{roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="targetRoomAvatar != null" >
+        #{targetRoomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="winMvpUid != null" >
+        #{winMvpUid,jdbcType=BIGINT},
+      </if>
+      <if test="winMvpAvatar != null" >
+        #{winMvpAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="winCombatPower != null" >
+        #{winCombatPower,jdbcType=DECIMAL},
+      </if>
+      <if test="inviteInvalidTime != null" >
+        #{inviteInvalidTime,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dc.allo.roomplay.domain.example.RoomPkRecordExample" resultType="java.lang.Integer" >
+    select count(*) from room_pk_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update room_pk_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomUid != null" >
+        room_uid = #{record.roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.targetRoomUid != null" >
+        target_room_uid = #{record.targetRoomUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomTitle != null" >
+        room_title = #{record.roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetRoomTitle != null" >
+        target_room_title = #{record.targetRoomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pkStatus != null" >
+        pk_status = #{record.pkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.pkResult != null" >
+        pk_result = #{record.pkResult,jdbcType=TINYINT},
+      </if>
+      <if test="record.pkStartTime != null" >
+        pk_start_time = #{record.pkStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pkEndTime != null" >
+        pk_end_time = #{record.pkEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.punishment != null" >
+        punishment = #{record.punishment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomTotalGold != null" >
+        room_total_gold = #{record.roomTotalGold,jdbcType=DECIMAL},
+      </if>
+      <if test="record.roomTotalPerson != null" >
+        room_total_person = #{record.roomTotalPerson,jdbcType=SMALLINT},
+      </if>
+      <if test="record.targetTotalGold != null" >
+        target_total_gold = #{record.targetTotalGold,jdbcType=DECIMAL},
+      </if>
+      <if test="record.targetTotalPerson != null" >
+        target_total_person = #{record.targetTotalPerson,jdbcType=SMALLINT},
+      </if>
+      <if test="record.sponsorUid != null" >
+        sponsor_uid = #{record.sponsorUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.winUid != null" >
+        win_uid = #{record.winUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.loseUid != null" >
+        lose_uid = #{record.loseUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.roomAvatar != null" >
+        room_avatar = #{record.roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetRoomAvatar != null" >
+        target_room_avatar = #{record.targetRoomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.winMvpUid != null" >
+        win_mvp_uid = #{record.winMvpUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.winMvpAvatar != null" >
+        win_mvp_avatar = #{record.winMvpAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.winCombatPower != null" >
+        win_combat_power = #{record.winCombatPower,jdbcType=DECIMAL},
+      </if>
+      <if test="record.inviteInvalidTime != null" >
+        invite_invalid_time = #{record.inviteInvalidTime,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update room_pk_record
+    set id = #{record.id,jdbcType=BIGINT},
+      room_uid = #{record.roomUid,jdbcType=BIGINT},
+      target_room_uid = #{record.targetRoomUid,jdbcType=BIGINT},
+      room_title = #{record.roomTitle,jdbcType=VARCHAR},
+      target_room_title = #{record.targetRoomTitle,jdbcType=VARCHAR},
+      pk_status = #{record.pkStatus,jdbcType=TINYINT},
+      pk_result = #{record.pkResult,jdbcType=TINYINT},
+      pk_start_time = #{record.pkStartTime,jdbcType=TIMESTAMP},
+      pk_end_time = #{record.pkEndTime,jdbcType=TIMESTAMP},
+      punishment = #{record.punishment,jdbcType=VARCHAR},
+      room_total_gold = #{record.roomTotalGold,jdbcType=DECIMAL},
+      room_total_person = #{record.roomTotalPerson,jdbcType=SMALLINT},
+      target_total_gold = #{record.targetTotalGold,jdbcType=DECIMAL},
+      target_total_person = #{record.targetTotalPerson,jdbcType=SMALLINT},
+      sponsor_uid = #{record.sponsorUid,jdbcType=BIGINT},
+      win_uid = #{record.winUid,jdbcType=BIGINT},
+      lose_uid = #{record.loseUid,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      room_avatar = #{record.roomAvatar,jdbcType=VARCHAR},
+      target_room_avatar = #{record.targetRoomAvatar,jdbcType=VARCHAR},
+      win_mvp_uid = #{record.winMvpUid,jdbcType=BIGINT},
+      win_mvp_avatar = #{record.winMvpAvatar,jdbcType=VARCHAR},
+      win_combat_power = #{record.winCombatPower,jdbcType=DECIMAL},
+      invite_invalid_time = #{record.inviteInvalidTime,jdbcType=SMALLINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dc.allo.rpc.domain.roomplay.RoomPkRecord" >
+    update room_pk_record
+    <set >
+      <if test="roomUid != null" >
+        room_uid = #{roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="targetRoomUid != null" >
+        target_room_uid = #{targetRoomUid,jdbcType=BIGINT},
+      </if>
+      <if test="roomTitle != null" >
+        room_title = #{roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="targetRoomTitle != null" >
+        target_room_title = #{targetRoomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pkStatus != null" >
+        pk_status = #{pkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="pkResult != null" >
+        pk_result = #{pkResult,jdbcType=TINYINT},
+      </if>
+      <if test="pkStartTime != null" >
+        pk_start_time = #{pkStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkEndTime != null" >
+        pk_end_time = #{pkEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="punishment != null" >
+        punishment = #{punishment,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTotalGold != null" >
+        room_total_gold = #{roomTotalGold,jdbcType=DECIMAL},
+      </if>
+      <if test="roomTotalPerson != null" >
+        room_total_person = #{roomTotalPerson,jdbcType=SMALLINT},
+      </if>
+      <if test="targetTotalGold != null" >
+        target_total_gold = #{targetTotalGold,jdbcType=DECIMAL},
+      </if>
+      <if test="targetTotalPerson != null" >
+        target_total_person = #{targetTotalPerson,jdbcType=SMALLINT},
+      </if>
+      <if test="sponsorUid != null" >
+        sponsor_uid = #{sponsorUid,jdbcType=BIGINT},
+      </if>
+      <if test="winUid != null" >
+        win_uid = #{winUid,jdbcType=BIGINT},
+      </if>
+      <if test="loseUid != null" >
+        lose_uid = #{loseUid,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomAvatar != null" >
+        room_avatar = #{roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="targetRoomAvatar != null" >
+        target_room_avatar = #{targetRoomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="winMvpUid != null" >
+        win_mvp_uid = #{winMvpUid,jdbcType=BIGINT},
+      </if>
+      <if test="winMvpAvatar != null" >
+        win_mvp_avatar = #{winMvpAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="winCombatPower != null" >
+        win_combat_power = #{winCombatPower,jdbcType=DECIMAL},
+      </if>
+      <if test="inviteInvalidTime != null" >
+        invite_invalid_time = #{inviteInvalidTime,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dc.allo.rpc.domain.roomplay.RoomPkRecord" >
+    update room_pk_record
+    set room_uid = #{roomUid,jdbcType=BIGINT},
+      target_room_uid = #{targetRoomUid,jdbcType=BIGINT},
+      room_title = #{roomTitle,jdbcType=VARCHAR},
+      target_room_title = #{targetRoomTitle,jdbcType=VARCHAR},
+      pk_status = #{pkStatus,jdbcType=TINYINT},
+      pk_result = #{pkResult,jdbcType=TINYINT},
+      pk_start_time = #{pkStartTime,jdbcType=TIMESTAMP},
+      pk_end_time = #{pkEndTime,jdbcType=TIMESTAMP},
+      punishment = #{punishment,jdbcType=VARCHAR},
+      room_total_gold = #{roomTotalGold,jdbcType=DECIMAL},
+      room_total_person = #{roomTotalPerson,jdbcType=SMALLINT},
+      target_total_gold = #{targetTotalGold,jdbcType=DECIMAL},
+      target_total_person = #{targetTotalPerson,jdbcType=SMALLINT},
+      sponsor_uid = #{sponsorUid,jdbcType=BIGINT},
+      win_uid = #{winUid,jdbcType=BIGINT},
+      lose_uid = #{loseUid,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      room_avatar = #{roomAvatar,jdbcType=VARCHAR},
+      target_room_avatar = #{targetRoomAvatar,jdbcType=VARCHAR},
+      win_mvp_uid = #{winMvpUid,jdbcType=BIGINT},
+      win_mvp_avatar = #{winMvpAvatar,jdbcType=VARCHAR},
+      win_combat_power = #{winCombatPower,jdbcType=DECIMAL},
+      invite_invalid_time = #{inviteInvalidTime,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

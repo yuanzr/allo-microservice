@@ -1,0 +1,15 @@
+spring.profiles.active: local
+
+server.port: 39999
+
+dubbo:
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    subscribed-services: allo-roomplay-service,allo-finance-service
+  consumer:
+    check: false
+spring:
+  application:
+    # app 应用名称
+    name: allo-rpc-consumer-test

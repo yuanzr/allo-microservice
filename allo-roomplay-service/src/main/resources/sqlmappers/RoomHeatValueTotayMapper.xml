@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dc.allo.roomplay.mapper.RoomHeatValueTotayMapper" >
+  <resultMap id="BaseResultMap" type="com.dc.allo.common.domain.room.RoomHeatValueTotay" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="room_uid" property="roomUid" jdbcType="BIGINT" />
+    <result column="room_avatar" property="roomAvatar" jdbcType="VARCHAR" />
+    <result column="room_title" property="roomTitle" jdbcType="VARCHAR" />
+    <result column="heat_value" property="heatValue" jdbcType="DECIMAL" />
+    <result column="mvp_avatar" property="mvpAvatar" jdbcType="VARCHAR" />
+    <result column="mvp_nick" property="mvpNick" jdbcType="VARCHAR" />
+    <result column="mvp_uid" property="mvpUid" jdbcType="BIGINT" />
+    <result column="day" property="day" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, room_uid, room_avatar, room_title, heat_value, mvp_avatar, mvp_nick, mvp_uid, 
+    day
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dc.allo.roomplay.domain.example.RoomHeatValueTotayExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from room_heat_value_today
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from room_heat_value_today
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from room_heat_value_today
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dc.allo.roomplay.domain.example.RoomHeatValueTotayExample" >
+    delete from room_heat_value_today
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotay" useGeneratedKeys="true" keyProperty="id" >
+    insert into room_heat_value_today (room_uid, room_avatar, room_title, 
+      heat_value, mvp_avatar, mvp_nick, 
+      mvp_uid, day)
+    values (#{roomUid,jdbcType=BIGINT}, #{roomAvatar,jdbcType=VARCHAR}, #{roomTitle,jdbcType=VARCHAR}, 
+      #{heatValue,jdbcType=DECIMAL}, #{mvpAvatar,jdbcType=VARCHAR}, #{mvpNick,jdbcType=VARCHAR}, 
+      #{mvpUid,jdbcType=BIGINT}, #{day,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotay" useGeneratedKeys="true" keyProperty="id" >
+    insert into room_heat_value_today
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roomUid != null" >
+        room_uid,
+      </if>
+      <if test="roomAvatar != null" >
+        room_avatar,
+      </if>
+      <if test="roomTitle != null" >
+        room_title,
+      </if>
+      <if test="heatValue != null" >
+        heat_value,
+      </if>
+      <if test="mvpAvatar != null" >
+        mvp_avatar,
+      </if>
+      <if test="mvpNick != null" >
+        mvp_nick,
+      </if>
+      <if test="mvpUid != null" >
+        mvp_uid,
+      </if>
+      <if test="day != null" >
+        day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roomUid != null" >
+        #{roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="roomAvatar != null" >
+        #{roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTitle != null" >
+        #{roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null" >
+        #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="mvpAvatar != null" >
+        #{mvpAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="mvpNick != null" >
+        #{mvpNick,jdbcType=VARCHAR},
+      </if>
+      <if test="mvpUid != null" >
+        #{mvpUid,jdbcType=BIGINT},
+      </if>
+      <if test="day != null" >
+        #{day,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dc.allo.roomplay.domain.example.RoomHeatValueTotayExample" resultType="java.lang.Integer" >
+    select count(*) from room_heat_value_today
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update room_heat_value_today
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomUid != null" >
+        room_uid = #{record.roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomAvatar != null" >
+        room_avatar = #{record.roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomTitle != null" >
+        room_title = #{record.roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.heatValue != null" >
+        heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mvpAvatar != null" >
+        mvp_avatar = #{record.mvpAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mvpNick != null" >
+        mvp_nick = #{record.mvpNick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mvpUid != null" >
+        mvp_uid = #{record.mvpUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.day != null" >
+        day = #{record.day,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update room_heat_value_today
+    set id = #{record.id,jdbcType=BIGINT},
+      room_uid = #{record.roomUid,jdbcType=BIGINT},
+      room_avatar = #{record.roomAvatar,jdbcType=VARCHAR},
+      room_title = #{record.roomTitle,jdbcType=VARCHAR},
+      heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      mvp_avatar = #{record.mvpAvatar,jdbcType=VARCHAR},
+      mvp_nick = #{record.mvpNick,jdbcType=VARCHAR},
+      mvp_uid = #{record.mvpUid,jdbcType=BIGINT},
+      day = #{record.day,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotay" >
+    update room_heat_value_today
+    <set >
+      <if test="roomUid != null" >
+        room_uid = #{roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="roomAvatar != null" >
+        room_avatar = #{roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTitle != null" >
+        room_title = #{roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null" >
+        heat_value = #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="mvpAvatar != null" >
+        mvp_avatar = #{mvpAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="mvpNick != null" >
+        mvp_nick = #{mvpNick,jdbcType=VARCHAR},
+      </if>
+      <if test="mvpUid != null" >
+        mvp_uid = #{mvpUid,jdbcType=BIGINT},
+      </if>
+      <if test="day != null" >
+        day = #{day,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotay" >
+    update room_heat_value_today
+    set room_uid = #{roomUid,jdbcType=BIGINT},
+      room_avatar = #{roomAvatar,jdbcType=VARCHAR},
+      room_title = #{roomTitle,jdbcType=VARCHAR},
+      heat_value = #{heatValue,jdbcType=DECIMAL},
+      mvp_avatar = #{mvpAvatar,jdbcType=VARCHAR},
+      mvp_nick = #{mvpNick,jdbcType=VARCHAR},
+      mvp_uid = #{mvpUid,jdbcType=BIGINT},
+      day = #{day,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,78 @@
+logging.config: classpath:logback-preview.xml
+
+app.product: false
+logs.level: INFO
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.26.225.10:8848
+        namespace: 8e155c80-dd20-4dd9-8b6f-7ee14ba7980f
+  redis:
+    database: 0
+    cluster:
+      max-redirects: 3
+      nodes: 172.26.225.1:7011,172.26.225.1:7012,172.26.225.1:7013
+    password: bwg127BWG127asdgQWGAD341a
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 3000ms
+        max-idle: 8
+        min-idle: 0
+  kafka:
+    bootstrap-servers: 172.26.225.10:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 1
+    consumer:
+      auto-offset-reset: latest
+      group-id: allo-task-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  shardingsphere:
+    datasource:
+      names: master,slave0
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://172.26.225.1:3306/task?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: SLLL1234acBC
+      slave0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://172.26.224.254:3306/task?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: SLLL1234acBC
+    masterslave:
+      name: ms
+      master-data-source-name: master
+      slave-data-source-names: master,slave0
+      load-balance-algorithm-type: round_robin
+    props:
+      sql:
+        show: false
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+#nacos整合i18n配置
+i18n:
+  nacos:
+    config:
+      server-addr: 172.26.225.10:8848
+      namespace: 5f231fd0-1be1-4187-9465-1c5d0bc39210
+      group: i18n-prod
+      dataIds: messages.properties,messages_en.properties,messages_ar.properties,messages_tr.properties,messages_in.properties,messages_zh.properties
+
+#自定义配置
+xchat:
+  web:
+    domain: http://staging.allolike.com

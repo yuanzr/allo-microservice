@@ -1,0 +1,38 @@
+server.port: 30001
+dubbo:
+  scan:
+    # dubbo 服务扫描基准包,注意不是api包，是有@service注解的包
+    base-packages: com.dc.allo.roomplay.service.rpc
+  protocol:
+    name: dubbo
+    # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
+    port: -1
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    # 订阅服务，不写会提示订阅了所有，如果只是生产者，此处空者，订阅多个服务用,分隔
+    subscribed-services: allo-finance-service,allo-user-service,allo-room-service,allo-biz-notice
+  consumer:
+    check: false
+    timeout: 30000
+  provider:
+    timeout: 30000
+spring:
+  profiles:
+    active: local
+  application:
+    # Dubbo 应用名称
+    name: allo-roomplay-service
+
+redis-delay-queue:
+  looper:
+    fetchCount: 1
+    sleepTime: 1
+
+redis-aggregation-queue:
+  looper:
+    triggerCnt: 5
+    triggerSeconds: 3
+    sleepTime: 1
+
+SECRETARY_UID: 61004335

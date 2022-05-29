@@ -1,0 +1,34 @@
+logging.config: classpath:logback-preview.xml
+
+app.product: false
+logs.level: INFO
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.26.225.10:8848
+        namespace: 8e155c80-dd20-4dd9-8b6f-7ee14ba7980f
+  redis:
+    database: 0
+    cluster:
+      max-redirects: 3
+      nodes: 172.26.225.1:7011,172.26.225.1:7012,172.26.225.1:7013
+    password: bwg127BWG127asdgQWGAD341a
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 3000ms
+        max-idle: 8
+        min-idle: 0
+
+#nacos整合i18n配置
+i18n:
+  nacos:
+    config:
+      server-addr: 172.26.225.10:8848
+      namespace: 5f231fd0-1be1-4187-9465-1c5d0bc39210
+      group: i18n-prod
+      dataIds: messages.properties,messages_en.properties,messages_ar.properties,messages_tr.properties,messages_in.properties,messages_zh.properties

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dc.allo.roomplay.mapper.RoomHeatValueTotalMapper" >
+  <resultMap id="BaseResultMap" type="com.dc.allo.common.domain.room.RoomHeatValueTotal" >
+    <id column="room_uid" property="roomUid" jdbcType="BIGINT" />
+    <result column="room_avatar" property="roomAvatar" jdbcType="VARCHAR" />
+    <result column="room_title" property="roomTitle" jdbcType="VARCHAR" />
+    <result column="heat_value" property="heatValue" jdbcType="DECIMAL" />
+    <result column="level" property="level" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    room_uid, room_avatar, room_title, heat_value, level
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dc.allo.roomplay.domain.example.RoomHeatValueTotalExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from room_heat_value_total
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from room_heat_value_total
+    where room_uid = #{roomUid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from room_heat_value_total
+    where room_uid = #{roomUid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dc.allo.roomplay.domain.example.RoomHeatValueTotalExample" >
+    delete from room_heat_value_total
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotal" >
+    insert into room_heat_value_total (room_uid, room_avatar, room_title, 
+      heat_value, level)
+    values (#{roomUid,jdbcType=BIGINT}, #{roomAvatar,jdbcType=VARCHAR}, #{roomTitle,jdbcType=VARCHAR}, 
+      #{heatValue,jdbcType=DECIMAL}, #{level,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotal" >
+    insert into room_heat_value_total
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roomUid != null" >
+        room_uid,
+      </if>
+      <if test="roomAvatar != null" >
+        room_avatar,
+      </if>
+      <if test="roomTitle != null" >
+        room_title,
+      </if>
+      <if test="heatValue != null" >
+        heat_value,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roomUid != null" >
+        #{roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="roomAvatar != null" >
+        #{roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTitle != null" >
+        #{roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null" >
+        #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dc.allo.roomplay.domain.example.RoomHeatValueTotalExample" resultType="java.lang.Integer" >
+    select count(*) from room_heat_value_total
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update room_heat_value_total
+    <set >
+      <if test="record.roomUid != null" >
+        room_uid = #{record.roomUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.roomAvatar != null" >
+        room_avatar = #{record.roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roomTitle != null" >
+        room_title = #{record.roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.heatValue != null" >
+        heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update room_heat_value_total
+    set room_uid = #{record.roomUid,jdbcType=BIGINT},
+      room_avatar = #{record.roomAvatar,jdbcType=VARCHAR},
+      room_title = #{record.roomTitle,jdbcType=VARCHAR},
+      heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      level = #{record.level,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotal" >
+    update room_heat_value_total
+    <set >
+      <if test="roomAvatar != null" >
+        room_avatar = #{roomAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="roomTitle != null" >
+        room_title = #{roomTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null" >
+        heat_value = #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=TINYINT},
+      </if>
+    </set>
+    where room_uid = #{roomUid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dc.allo.common.domain.room.RoomHeatValueTotal" >
+    update room_heat_value_total
+    set room_avatar = #{roomAvatar,jdbcType=VARCHAR},
+      room_title = #{roomTitle,jdbcType=VARCHAR},
+      heat_value = #{heatValue,jdbcType=DECIMAL},
+      level = #{level,jdbcType=TINYINT}
+    where room_uid = #{roomUid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <property name="APP_NAME" value="allo-user-service"/>
+    <property name="LOG_DIR" value="/data/weblog/java"/>
+
+    <appender name="ROLLFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${APP_NAME}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_DIR}/${APP_NAME}/info-%d{yyyy-MM-dd}.%i.log.gz
+            </fileNamePattern>
+            <!-- keep 15 days' worth of history -->
+            <maxHistory>15</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 180MB,Note:If log file greater than 200MB,the log file will be logrotate by system! -->
+                <maxFileSize>180MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level [%file:%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--<appender name="Sentry" class="io.sentry.logback.SentryAppender">-->
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+            <!--<level>ERROR</level>-->
+        <!--</filter>-->
+    <!--</appender>-->
+
+    <logger name="java.sql" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.mybatis" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+
+    <root level="INFO">
+        <!--<appender-ref ref="Sentry" />-->
+        <appender-ref ref="ROLLFILE"/>
+    </root>
+
+</configuration>

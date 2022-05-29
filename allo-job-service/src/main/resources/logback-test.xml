@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <property name="app.name" value="allo-job-service"/>
+    <property name="logs.dir" value="/data/weblog/java"/>
+    <property name="logs.level" value="info"/>
+
+<appender name="infoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logs.dir}/${app.name}/info.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <!-- daily rollover -->
+        <fileNamePattern>${logs.dir}/${app.name}/info-%d{yyyy-MM-dd}.%i.log.gz
+        </fileNamePattern>
+        <maxHistory>15</maxHistory>
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <!-- or whenever the file size reaches 180MB,Note:If log file greater than 200MB,the log file will be logrotate by system! -->
+            <maxFileSize>180MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>INFO</level>
+    </filter>
+    <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level [%file:%line] - %msg%n</pattern>
+    </encoder>
+</appender>
+<appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logs.dir}/${app.name}/error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${logs.dir}/${app.name}/error-%d{yyyy-MM-dd}.%i.log.gz
+        </fileNamePattern>
+        <maxHistory>15</maxHistory>
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>180MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>ERROR</level>
+    </filter>
+    <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level [%file:%line] - %msg%n</pattern>
+    </encoder>
+</appender>
+
+<root level="${logs.level}" name="com.dc" additivity="true">
+    <appender-ref ref="infoFile"/>
+    <appender-ref ref="errorFile"/>
+</root>
+</configuration>

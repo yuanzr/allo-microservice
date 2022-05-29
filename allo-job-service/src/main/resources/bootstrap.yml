@@ -1,0 +1,28 @@
+dubbo:
+  scan:
+    # dubbo 服务扫描基准包,注意不是api包，是有@service注解的包
+    base-packages: com.dc.allo.job.service.rpc
+  protocol:
+    name: dubbo
+    # dubbo 协议端口（ -1 表示自增端口，从 20880 开始）
+    port: -1
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    # 订阅服务，不写会提示订阅了所有，如果只是生产者，此处空者，订阅多个服务用,分隔
+    subscribed-services: allo-roomplay-service,allo-user-service,allo-biz-notice,allo-rank-service
+  consumer:
+    check: false
+    timeout: 30000
+  provider:
+    timeout: 30000
+
+spring:
+  application:
+    # Dubbo 应用名称
+    name: allo-job-service
+  profiles:
+    active: local
+server:
+  port: 30009
+
